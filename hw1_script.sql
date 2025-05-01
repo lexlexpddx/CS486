@@ -206,3 +206,54 @@ insert into states (state_name, state_abbrev, state_capital, state_pop, state_ar
 insert into states (state_name, state_abbrev, state_capital, state_pop, state_area) values
 	('Maine', 'ME', 11, 1362359, 35380);
 
+update cities
+set state_id = (select state_id from states where state_abbrev = 'OR')
+where city_id = 1 or city_id = 6;
+
+update cities
+set state_id = (select state_id from states where state_abbrev = 'CA')
+where city_id = 7 or city_id = 2;
+
+update cities
+set state_id = (select state_id from states where state_abbrev = 'WA')
+where city_id = 3 or city_id = 8;
+
+update cities
+set state_id = (select state_id from states where state_abbrev = 'CT')
+where city_id = 4 or city_id = 12 or city_id = 9;
+
+update cities
+set state_id = (select state_id from states where state_abbrev = 'RI')
+where city_id = 5;
+
+update cities
+set state_id = (select state_id from states where state_abbrev = 'ME')
+where city_id = 11 or city_id = 10;
+
+select *
+from cities c
+order by c.state_id;
+
+select *
+from states s
+order by s.state_id;
+
+select
+	c.city_name,
+	s.state_abbrev 
+from
+	cities c
+join states s on c.state_id = s.state_id
+order by
+	s.state_abbrev;
+
+select 
+	s.state_name,
+	s.state_abbrev,
+	c.city_name as state_capital,
+	s.state_pop,
+	s.state_area,
+	s.state_density
+from states s
+join cities c on s.state_capital = c.city_id 
+order by s.state_abbrev;
